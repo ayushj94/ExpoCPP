@@ -16,7 +16,7 @@ public:
     void setFullQset();
     void setHalfQset();
     void startAll();
-    void sendMsg(int, ScpMessage);
+    void sendMsg(int, struct ScpMessage);
     string getStatus();
     void printStatus();
 };

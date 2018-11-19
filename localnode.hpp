@@ -1,8 +1,6 @@
 #ifndef EXPOCPP_LOCALNODE_H
 #define EXPOCPP_LOCALNODE_H
 
-using namespace std;
-
 #include <vector>
 #include <string>
 
@@ -13,9 +11,9 @@ class System;
 class LocalNode {
 public:
     System * sys;
-    int nodeID;
+    int nodeId;
     vector<Slot> slots;
-    vector<LocalNode> qset;
+    vector<LocalNode> qSet;
 
     LocalNode(System, int);
     void updateQset(vector<LocalNode>);
@@ -24,8 +22,8 @@ public:
     void tick();
     Slot getSlot();
     void nominate(int);
-    void sendMsg(ScpMessage, int);
-    void processMsg(ScpMessage);
+    void sendMsg(struct ScpMessage, int);
+    void processMsg(struct ScpMessage);
     string getStatusString();
 };
 

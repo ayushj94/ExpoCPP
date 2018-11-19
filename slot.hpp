@@ -14,7 +14,7 @@ public:
 
     Slot(LocalNode, int);
     void nominate(int);
-    void processMsg(ScpMessage);
+    void processMsg(struct ScpMessage);
     string getStatusString();
 };
 

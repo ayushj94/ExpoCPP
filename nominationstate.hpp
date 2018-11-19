@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "scpmessage.hpp"
 
@@ -13,14 +14,14 @@ public:
     LocalNode * localNode;
     int slotIndex;
     int x, y, z;
-    vector<ScpMessage> n;
+    map<int, struct ScpMessage> n;
     bool confirmed;
 
     NominationState(LocalNode *, int);
     void nominate(int);
     void voteOrAccept();
-    ScpMessage getNominateMsg();
-    void processMsg(ScpMessage);
+    struct ScpMessage getNominateMsg();
+    void processMsg(struct ScpMessage);
     string getStatusString();
 };
 
