@@ -1,10 +1,11 @@
-#ifndef EXPOCPP_NOMINATIONSTATE_H
-#define EXPOCPP_NOMINATIONSTATE_H
+#ifndef SCP_NOMINATIONSTATE_H
+#define SCP_NOMINATIONSTATE_H
 
 #include <string>
 #include <vector>
 #include <map>
 
+#include "localnode.hpp"
 #include "scpmessage.hpp"
 
 using namespace std;
@@ -12,17 +13,17 @@ using namespace std;
 class NominationState {
 public:
     LocalNode * localNode;
-    int slotIndex;
+    unsigned slotIndex;
     int x, y, z;
-    map<int, struct ScpMessage> n;
+    map<unsigned, ScpMessage> n;
     bool confirmed;
 
-    NominationState(LocalNode *, int);
+    NominationState(LocalNode* localNode, unsigned slotIndex);
     void nominate(int);
     void voteOrAccept();
-    struct ScpMessage getNominateMsg();
-    void processMsg(struct ScpMessage);
+    ScpMessage getNominateMsg();
+    void processMsg(ScpMessage);
     string getStatusString();
 };
 
-#endif //EXPOCPP_NOMINATIONSTATE_H
+#endif //SCP_NOMINATIONSTATE_H

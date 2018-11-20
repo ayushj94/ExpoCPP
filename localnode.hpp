@@ -1,30 +1,29 @@
-#ifndef EXPOCPP_LOCALNODE_H
-#define EXPOCPP_LOCALNODE_H
+#ifndef SCP_LOCALNODE_H
+#define SCP_LOCALNODE_H
 
 #include <vector>
 #include <string>
 
+#include "system.hpp"
 #include "slot.hpp"
 
-class System;
-
 class LocalNode {
-public:
-    System * sys;
-    int nodeId;
-    vector<Slot> slots;
-    vector<LocalNode> qSet;
-
-    LocalNode(System, int);
-    void updateQset(vector<LocalNode>);
-    vector<LocalNode> cloneQset();
-    void start();
-    void tick();
-    Slot getSlot();
-    void nominate(int);
-    void sendMsg(struct ScpMessage, int);
-    void processMsg(struct ScpMessage);
-    string getStatusString();
+    public:
+        System * system;
+        unsigned nodeId;
+        vector<Slot> slots;
+        vector<unsigned> qSet;
+        
+        LocalNode(System * system, unsigned nodeId);
+        void updateQset(vector<unsigned> newQset);
+        vector<unsigned> cloneQset();
+        void start();
+        void tick();
+        Slot getSlot(unsigned slotIndex);
+        void nominate(int value, unsigned slotIndex = 1);
+        void sendMsg(ScpMessage msg, int toNodeId = -1);
+        void processMsg(ScpMessage msg);
+        string getStatusString(unsigned slotIndex = 1);
 };
 
-#endif //EXPOCPP_LOCALNODE_H
+#endif //SCP_LOCALNODE_H

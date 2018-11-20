@@ -1,10 +1,11 @@
-#ifndef EXPOCPP_SYSTEM_H
-#define EXPOCPP_SYSTEM_H
+#ifndef SCP_SYSTEM_H
+#define SCP_SYSTEM_H
 
 #include <string>
 #include <vector>
 
 #include "localnode.hpp"
+#include "scpmessage.hpp"
 
 class System {
 public:
@@ -12,14 +13,14 @@ public:
     int nodeSize;
     vector<LocalNode> nodes;
 
-    System(int, string);
+    System(unsigned nodeSize, string name);
     void setFullQset();
     void setHalfQset();
     void startAll();
-    void sendMsg(int, struct ScpMessage);
+    void sendMsg(unsigned toNodeId, ScpMessage msg);
     string getStatus();
     void printStatus();
 };
 
 
-#endif //EXPOCPP_SYSTEM_H
+#endif //SCP_SYSTEM_H

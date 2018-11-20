@@ -8,9 +8,9 @@
 
 using namespace std;
 
-NominationState::NominationState(LocalNode * ln, int si) {
-    localNode = ln;
-    slotIndex = si;
+NominationState::NominationState(LocalNode * localNode, unsigned slotIndex) {
+    this->localNode = localNode;
+    this->slotIndex = slotIndex;
     x = y = z= -1;
     confirmed = false;
 }
@@ -38,24 +38,25 @@ void NominationState::voteOrAccept() {
     }
 
 
-    for (map<int, struct ScpMessage>::iterator it = n.begin(); it != n.end(); ++it)
+    for (map<int, ScpMessage>::iterator it = n.begin(); it != n.end(); ++it)
     {
-        struct ScpMessage msg = it->second;
+        ScpMessage msg = it->second;
         value = max(msg.x, msg.y);
         if (value == z) {
             votedOrAccepted[it->first] = value;
         }
         if (msg.y == z) {
             countAccepted++;
-            for (vector<LocalNode>::iterator v_it = msg.qSet.begin(); v_it != msg.qSet.end(); ++v_it) {
-                votedOrAccepted[(*v_it).nodeId] = msg.y;
+            for(unsigned int i = 0 ; i < msg.qSet.size() ; i++) {
+            // for (vector<LocalNode>::iterator v_it = msg.qSet.begin(); v_it != msg.qSet.end(); ++v_it) {
+                votedOrAccepted[msg.qSet.at(i)] = msg.y;
             }
         }
     }
 
     int countVotedOrAccepted = 0;
-    for (vector<LocalNode>::iterator v_it = (*localNode).qSet.begin(); v_it != (*localNode).qSet.end(); ++v_it) {
-        if(!(votedOrAccepted.find((*v_it).nodeId) == votedOrAccepted.end())) {
+    for(unsigned i = 0 ; i < localNode->qSet.size() ; i++) {
+        if(!(votedOrAccepted.find(localNode->nodeId) == votedOrAccepted.end())) {
             countVotedOrAccepted++;
         }
     }
@@ -75,27 +76,27 @@ void NominationState::voteOrAccept() {
         (*localNode).sendMsg(getNominateMsg(), -1);
 }
 
-struct ScpMessage NominationState::getNominateMsg() {
-    struct ScpMessage msg;
-    msg.nodeID = (*localNode).nodeId;
+ScpMessage NominationState::getNominateMsg() {
+    ScpMessage msg;
+    msg.nodeId = localNode->nodeId;
     msg.slotIndex = slotIndex;
     msg.type = "NOMINATE";
     msg.x = x;
     msg.y = y;
-    for (int i = 0; i < (*localNode).qSet.size(); i++)
-        msg.qSet.push_back((*localNode).qSet[i]);
+    msg.qSet = localNode->cloneQset();
     return msg;
 }
 
-void NominationState::processMsg(struct ScpMessage msg) {
-    int nodeID = (*localNode).nodeId;
-    int from = msg.nodeID;
+void NominationState::processMsg(ScpMessage msg) {
+    unsigned nodeId = localNode->nodeId;
+    unsigned from = msg.nodeId;
 
     if (z < 0)
         z = max(msg.x, msg.y);
 
-    for (vector<LocalNode>::iterator v_it = (*localNode).qSet.begin(); v_it != (*localNode).qSet.end(); ++v_it)
-        if ((*v_it).nodeId == from)
+    for(unsigned i = 0 ; i < localNode->qSet.size() ; i++) {
+    // for (vector<LocalNode>::iterator v_it = (*localNode).qSet.begin(); v_it != (*localNode).qSet.end(); ++v_it)
+        if (localNode->qSet[i] == from)
             n[from] = msg;
 
     voteOrAccept();

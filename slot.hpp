@@ -1,7 +1,11 @@
-#ifndef EXPOCPP_SLOT_H
-#define EXPOCPP_SLOT_H
+#ifndef SCP_SLOT_H
+#define SCP_SLOT_H
 
+#include <string>
+
+#include "localnode.hpp"
 #include "nominationstate.hpp"
+#include "scpmessage.hpp"
 
 using namespace std;
 
@@ -10,12 +14,12 @@ public:
     string phase;
     LocalNode * localNode;
     int slotIndex;
-    NominationState nominationState;
+    NominationState * nominationState;
 
-    Slot(LocalNode, int);
-    void nominate(int);
-    void processMsg(struct ScpMessage);
+    Slot(LocalNode * localNode, unsigned slotIndex);
+    void nominate(int value);
+    void processMsg(ScpMessage msg);
     string getStatusString();
 };
 
-#endif //EXPOCPP_SLOT_H
+#endif //SCP_SLOT_H

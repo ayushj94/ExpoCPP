@@ -2,64 +2,65 @@
 
 #include "system.hpp"
 
-System::System(int nodeSize_, string name_) {
-    name = name_;
-    nodeSize = nodeSize_;
-    for (int i = 0; i < nodeSize; i++) {
-        nodes.push_back(new LocalNode(this));
+using namespace std;
+
+System::System(unsigned nodeSize, string name) {
+    this->name = name;
+    this->nodeSize = nodeSize;
+    for (unsigned i = 0; i < nodeSize; i++) {
+        nodes.push_back(LocalNode(this, i));
     }
 }
 
 void System::setFullQset() {
-    vector<LocalNode> fullQuorumSet;
-    for (int i = 0; i < nodeSize; i++) {
-        fullQuorumSet.push_back(nodes[i]);
+    vector<unsigned> fullQuorumSet;
+    for (unsigned i = 0; i < nodeSize; i++) {
+        fullQuorumSet.push_back(i);
     }
-    for (int i = 0; i < nodeSize; i++) {
-        nodes[i].updateQset(fullQuorumSet);
+    for (unsigned i = 0; i < nodeSize; i++) {
+        nodes.at(i).updateQset(fullQuorumSet);
     }
 }
 
 void System::setHalfQset() {
-    for (int i = 0; i < nodeSize; i++) {
-        vector<LocalNode> qSet;
-        for(int j = i; j <= i + nodeSize / 2; j++) {
-            qSet.push_back(nodes[j % nodeSize]);
+    for (unsigned i = 0; i < nodeSize; i++) {
+        vector<unsigned> qSet;
+        for(unsigned j = i; j <= i + nodeSize / 2; j++) {
+            qSet.push_back(j % nodeSize);
         }
         nodes[i].updateQset(qSet);
     }
 }
 
-void System::sendMsg(int to, struct ScpMessage msg) {
-    nodes[to].processMsg(msg);
+void System::sendMsg(unsigned toNodeId, ScpMessage msg) {
+    nodes.at(toNodeId).processMsg(msg);
 }
 
-string System::getStatus() {
-    int value = -1;
-    string status = "Unknown";
+// string System::getStatus() {
+//     int value = -1;
+//     string status = "Unknown";
 
-    for (vector<LocalNode>::iterator v_it = nodes.begin(); v_it != nodes.end(); ++v_it) {
-        if ((*v_it).slots.size() > 1) {
-            NominationState state = (*v_it).slots[1].nominationState;
-            if (state.y >= 0) {
-                if (value < 0) {
-                    value = state.y;
-                }
-                if (value == state.y) {
-                    status = "Agreed ";
-                } else {
-                    status = "Stuck ";
-                }
-            }
-        }
-    }
-    return status;
-}
+//     for(unsigned i = 0 ; i < nodes.size(); i++) {
+//         NominationState state = nodes.at(0).nominationState;
+//             if (state.y >= 0) {
+//                 if (value < 0) {
+//                     value = state.y;
+//                 }
+//                 if (value == state.y) {
+//                     status = "Agreed ";
+//                 } else {
+//                     status = "Stuck ";
+//                 }
+//             }
+//         }
+//     }
+//     return status;
+// }
 
 void System::printStatus() {
     string s = "";
-    for (vector<LocalNode>::iterator v_it = nodes.begin(); v_it != nodes.end(); ++v_it) {
-        s += (*v_it).getStatusString();
+    for(unsigned i = 0 ; i <  nodes.size(); i++) {
+        s += nodes.at(i).getStatusString();
     }
     string st = getStatus();
     cout << "Status: " + st + "Nodes: " + s;
