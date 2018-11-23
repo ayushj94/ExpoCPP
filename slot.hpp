@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "localnode.hpp"
-#include "nominationstate.hpp"
-#include "scpmessage.hpp"
+class LocalNode;
+class NominationState;
+class ScpMessage;
 
 using namespace std;
 
@@ -16,9 +16,9 @@ public:
     int slotIndex;
     NominationState * nominationState;
 
-    Slot(LocalNode * localNode, unsigned slotIndex);
-    void nominate(int value);
-    void processMsg(ScpMessage msg);
+    Slot(LocalNode *, unsigned);
+    void nominate(int);
+    void processMsg(ScpMessage);
     string getStatusString();
 };
 

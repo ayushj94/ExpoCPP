@@ -5,6 +5,9 @@
 
 #include "nominationstate.hpp"
 #include "localnode.hpp"
+#include "slot.hpp"
+#include "system.hpp"
+#include "scpmessage.hpp"
 
 using namespace std;
 
@@ -38,7 +41,7 @@ void NominationState::voteOrAccept() {
     }
 
 
-    for (map<int, ScpMessage>::iterator it = n.begin(); it != n.end(); ++it)
+    for (map<unsigned int, ScpMessage>::iterator it = n.begin(); it != n.end(); ++it)
     {
         ScpMessage msg = it->second;
         value = max(msg.x, msg.y);
@@ -95,9 +98,10 @@ void NominationState::processMsg(ScpMessage msg) {
         z = max(msg.x, msg.y);
 
     for(unsigned i = 0 ; i < localNode->qSet.size() ; i++) {
-    // for (vector<LocalNode>::iterator v_it = (*localNode).qSet.begin(); v_it != (*localNode).qSet.end(); ++v_it)
+        // for (vector<LocalNode>::iterator v_it = (*localNode).qSet.begin(); v_it != (*localNode).qSet.end(); ++v_it)
         if (localNode->qSet[i] == from)
             n[from] = msg;
+    }
 
     voteOrAccept();
 }

@@ -4,20 +4,21 @@
 #include <string>
 #include <vector>
 
-#include "localnode.hpp"
-#include "scpmessage.hpp"
+using namespace std;
+
+class LocalNode;
+class ScpMessage;
 
 class System {
 public:
     string name;
     int nodeSize;
-    vector<LocalNode> nodes;
+    vector<LocalNode*> nodes;
 
-    System(unsigned nodeSize, string name);
+    System(unsigned, string);
     void setFullQset();
     void setHalfQset();
-    void startAll();
-    void sendMsg(unsigned toNodeId, ScpMessage msg);
+    void sendMsg(unsigned, ScpMessage);
     string getStatus();
     void printStatus();
 };

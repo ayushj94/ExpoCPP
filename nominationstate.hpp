@@ -5,10 +5,10 @@
 #include <vector>
 #include <map>
 
-#include "localnode.hpp"
-#include "scpmessage.hpp"
-
 using namespace std;
+
+class LocalNode;
+class ScpMessage;
 
 class NominationState {
 public:
@@ -18,7 +18,7 @@ public:
     map<unsigned, ScpMessage> n;
     bool confirmed;
 
-    NominationState(LocalNode* localNode, unsigned slotIndex);
+    NominationState(LocalNode*, unsigned);
     void nominate(int);
     void voteOrAccept();
     ScpMessage getNominateMsg();
