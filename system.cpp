@@ -66,5 +66,5 @@ void System::printStatus() {
         s += nodes.at(i)->getStatusString(i);
     }
     string st = getStatus();
-    cout << "Status: " + st + "Nodes: " + s;
+    cout << "Status: " + st + "Nodes: " + s << "\n";
 }

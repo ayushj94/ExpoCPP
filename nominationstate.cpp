@@ -21,6 +21,7 @@ NominationState::NominationState(LocalNode * localNode, unsigned slotIndex) {
 void NominationState::nominate(int value) {
     if (z < 0) {
         z = value;
+        cout <<  "Node " << this->localNode->nodeId << " nominated " << value << "\n";
     } else if (z != value) {
         // OK! no conflict.
         cout << "Ignore nominate command!";
@@ -38,6 +39,7 @@ void NominationState::voteOrAccept() {
     if (x < 0 && y < 0 && z >= 0) {
         x = z;
         needToSend = true;
+        cout << "Node " << this->localNode->nodeId << " accepted \n";
     }
 
 
@@ -69,11 +71,13 @@ void NominationState::voteOrAccept() {
             x = -1;
             y = z;
             needToSend = true;
+            cout << "Node " << this->localNode->nodeId << " confirmed\n";
         }
     }
 
-    if (countAccepted >= ((*localNode).qSet.size() - 1))
+    if (countAccepted >= ((*localNode).qSet.size() - 1)) {
         confirmed = true;
+    }
 
     if (needToSend)
         (*localNode).sendMsg(getNominateMsg(), -1);
