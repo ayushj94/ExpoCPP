@@ -39,7 +39,7 @@ void NominationState::voteOrAccept() {
     if (x < 0 && y < 0 && z >= 0) {
         x = z;
         needToSend = true;
-        cout << "Node " << this->localNode->nodeId << " accepted \n";
+        cout << "Node " << this->localNode->nodeId << " accepted " << x << "\n";
     }
 
 
@@ -61,7 +61,7 @@ void NominationState::voteOrAccept() {
 
     int countVotedOrAccepted = 0;
     for(unsigned i = 0 ; i < localNode->qSet.size() ; i++) {
-        if(!(votedOrAccepted.find(localNode->nodeId) == votedOrAccepted.end())) {
+        if(!(votedOrAccepted.find(localNode->qSet.at(i)) == votedOrAccepted.end())) {
             countVotedOrAccepted++;
         }
     }
@@ -104,6 +104,7 @@ void NominationState::processMsg(ScpMessage msg) {
     for(unsigned i = 0 ; i < localNode->qSet.size() ; i++) {
         // for (vector<LocalNode>::iterator v_it = (*localNode).qSet.begin(); v_it != (*localNode).qSet.end(); ++v_it)
         if (localNode->qSet[i] == from)
+            cout << "Node " << nodeId << " Received " << max(msg.x, msg.y) << " from Node " << from << "\n";
             n[from] = msg;
     }
 
