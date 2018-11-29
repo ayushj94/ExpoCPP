@@ -40,24 +40,28 @@ void System::sendMsg(unsigned toNodeId, ScpMessage msg) {
     nodes.at(toNodeId)->processMsg(msg);
 }
 
-string System::getStatus() {
+bool System::getStatus() {
      int value = -1;
-     string status = "Unknown";
-
+     bool status = false; //"Unknown";
+     int confirmed_count = 0;
      for(unsigned i = 0; i < nodes.size(); i++) {
-         NominationState* state = (nodes.at(0)->slots).at(0)->nominationState;
-         if (state->y >= 0) {
-             if (value < 0) {
-                 value = state->y;
-             }
-             if (value == state->y) {
-                 status = "Agreed ";
-             } else {
-                 status = "Stuck ";
-             }
-         }
+         NominationState* state = (nodes.at(i)->slots).at(0)->nominationState;
+         if(state->confirmed)
+            confirmed_count++;
+        else
+            cout << "!!!! Node " << i << " did not confirm !!!!\n";
+        //  if (state->y >= 0) {
+        //      if (value < 0) {
+        //          value = state->y;
+        //      }
+        //      if (value == state->y) {
+        //          status = "Agreed ";
+        //      } else {
+        //          status = "Stuck ";
+        //      }
+        //  }
      }
-     return status;
+     return confirmed_count == nodes.size();
 }
 
 void System::printStatus() {
@@ -65,6 +69,6 @@ void System::printStatus() {
     for(unsigned i = 0 ; i <  nodes.size(); i++) {
         s += nodes.at(i)->getStatusString(i);
     }
-    string st = getStatus();
+    string st = ""; //getStatus();
     cout << "Status: " + st + "Nodes: " + s << "\n";
 }

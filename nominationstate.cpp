@@ -71,12 +71,12 @@ void NominationState::voteOrAccept() {
             x = -1;
             y = z;
             needToSend = true;
-            cout << "Node " << this->localNode->nodeId << " confirmed\n";
         }
     }
 
     if (countAccepted >= ((*localNode).qSet.size() - 1)) {
         confirmed = true;
+        cout << "Node " << this->localNode->nodeId << " confirmed\n";
     }
 
     if (needToSend)

@@ -19,7 +19,7 @@ public:
     void setFullQset();
     void setHalfQset();
     void sendMsg(unsigned, ScpMessage);
-    string getStatus();
+    bool getStatus();
     void printStatus();
 };
 
