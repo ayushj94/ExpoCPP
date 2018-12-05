@@ -43,13 +43,13 @@ void System::sendMsg(unsigned toNodeId, ScpMessage msg) {
 bool System::getStatus() {
      int value = -1;
      bool status = false; //"Unknown";
-     int confirmed_count = 0;
+     int accepted_count = 0;
      for(unsigned i = 0; i < nodes.size(); i++) {
          NominationState* state = (nodes.at(i)->slots).at(0)->nominationState;
-         if(state->confirmed)
-            confirmed_count++;
+         if(state->y > 0)
+            accepted_count++;
         else
-            cout << "!!!! Node " << i << " did not confirm !!!!\n";
+            cout << "!!!! Node " << i << " was not able to accept !!!!\n";
         //  if (state->y >= 0) {
         //      if (value < 0) {
         //          value = state->y;
@@ -61,7 +61,7 @@ bool System::getStatus() {
         //      }
         //  }
      }
-     return confirmed_count == nodes.size();
+     return accepted_count == nodes.size();
 }
 
 void System::printStatus() {

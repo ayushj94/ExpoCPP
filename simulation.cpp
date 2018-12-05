@@ -55,7 +55,7 @@ void Simulation::simulate() {
   SCP::trigger(&system1, 0, 3);
   cout<<"\n";
   if(system1.getStatus())
-    cout << "System 1 reached consensus. Value ratified.\n";
+    cout << "System 1 reached preliminary consensus. Ready to move on to Ballot phase.\n";
   else
     cout << "System 1 is stuck\n";
 
@@ -67,7 +67,7 @@ void Simulation::simulate() {
   SCP::trigger(&system2, 7, 4);
   cout<<"\n";
   if(system2.getStatus())
-    cout << "System 2 reached consensus. Value ratified.\n";
+    cout << "System 2 reached preliminary consensus. Ready to move on to Ballot phase.\n";
   else
     cout << "System 2 is stuck\n";
 

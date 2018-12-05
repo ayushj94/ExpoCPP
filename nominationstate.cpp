@@ -39,11 +39,11 @@ void NominationState::voteOrAccept() {
     if (x < 0 && y < 0 && z >= 0) {
         x = z;
         needToSend = true;
-        cout << "Node " << this->localNode->nodeId << " accepted " << x << "\n";
+        cout << "Node " << this->localNode->nodeId << " voted " << x << "\n";
     }
 
 
-    for (map<unsigned int, ScpMessage>::iterator it = n.begin(); it != n.end(); ++it)
+    for (map<unsigned, ScpMessage>::iterator it = n.begin(); it != n.end(); ++it)
     {
         ScpMessage msg = it->second;
         value = max(msg.x, msg.y);
@@ -52,7 +52,7 @@ void NominationState::voteOrAccept() {
         }
         if (msg.y == z) {
             countAccepted++;
-            for(unsigned int i = 0 ; i < msg.qSet.size() ; i++) {
+            for(unsigned i = 0 ; i < msg.qSet.size() ; i++) {
             // for (vector<LocalNode>::iterator v_it = msg.qSet.begin(); v_it != msg.qSet.end(); ++v_it) {
                 votedOrAccepted[msg.qSet.at(i)] = msg.y;
             }
@@ -70,13 +70,14 @@ void NominationState::voteOrAccept() {
         if (countVotedOrAccepted >= ((*localNode).qSet.size() - 1)) {
             x = -1;
             y = z;
+            cout << "Node " << this->localNode->nodeId << " accepted " << y << "\n";
             needToSend = true;
         }
     }
 
     if (countAccepted >= ((*localNode).qSet.size() - 1)) {
         confirmed = true;
-        cout << "Node " << this->localNode->nodeId << " confirmed\n";
+        // cout << "Node " << this->localNode->nodeId << " confirmed\n";
     }
 
     if (needToSend)
