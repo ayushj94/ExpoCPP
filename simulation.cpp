@@ -21,13 +21,13 @@ void Simulation::simulate() {
   for (auto i = vect1.begin(); i != vect1.end(); ++i)
     std::cout << *i << ' ';
   
-  vector<unsigned> vect2{1, 2, 3, 5, 6};
+  vector<unsigned> vect2{1, 2, 3, 0, 6};
   system1.nodes.at(2)->updateQset(vect2);
   cout << "\nNode 2's qset: ";
   for (auto i = vect2.begin(); i != vect2.end(); ++i)
     std::cout << *i << ' ';
   
-  vector<unsigned> vect3{3, 4, 5, 6};
+  vector<unsigned> vect3{3, 4, 0, 6};
   system1.nodes.at(3)->updateQset(vect3);
   cout << "\nNode 3's qset: ";
   for (auto i = vect3.begin(); i != vect3.end(); ++i)
