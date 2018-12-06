@@ -98,15 +98,18 @@ ScpMessage NominationState::getNominateMsg() {
 void NominationState::processMsg(ScpMessage msg) {
     unsigned nodeId = localNode->nodeId;
     unsigned from = msg.nodeId;
+    string v1;
 
     if (z < 0)
         z = max(msg.x, msg.y);
 
     for(unsigned i = 0 ; i < localNode->qSet.size() ; i++) {
         // for (vector<LocalNode>::iterator v_it = (*localNode).qSet.begin(); v_it != (*localNode).qSet.end(); ++v_it)
-        if (localNode->qSet[i] == from)
-            cout << "Node " << nodeId << " Received " << max(msg.x, msg.y) << " from Node " << from << "\n";
+        if (localNode->qSet[i] == from) {
+            v1 = (msg.x > msg.y) ? "voted value" : "accepted value";
+            cout << "Node " << nodeId << " Received (" << max(msg.x, msg.y) << ")" << v1 << " from Node " << from << "\n";
             n[from] = msg;
+        }
     }
 
     voteOrAccept();
